@@ -1,0 +1,12 @@
+{application,crudry,
+             [{applications,[kernel,stdlib,elixir,logger,ecto,absinthe,
+                             gettext]},
+              {description,"Crudry is a library for DRYing CRUD."},
+              {modules,['Elixir.ContextFunctionsGenerator',
+                        'Elixir.Crudry.Context',
+                        'Elixir.Crudry.Middlewares.TranslateErrors',
+                        'Elixir.Crudry.Query','Elixir.Crudry.Resolver',
+                        'Elixir.Crudry.Translator','Elixir.Helper',
+                        'Elixir.ResolverFunctionsGenerator']},
+              {registered,[]},
+              {vsn,"2.4.0"}]}.
