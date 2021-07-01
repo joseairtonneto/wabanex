@@ -9,8 +9,13 @@ defmodule Wabanex.Trainings.Delete do
 
       {:ok, id} ->
         case Repo.get(Training, id) do
-          nil -> {:error, "User not found"}
-          training -> Repo.delete(training)
+          nil -> {:error, "Training not found"}
+          training ->
+            training = Repo.preload(training, :exercises)
+            
+            Enum.map(training.exercises, fn exercise -> Repo.delete(exercise) end)
+
+            Repo.delete(training)
         end
     end
   end

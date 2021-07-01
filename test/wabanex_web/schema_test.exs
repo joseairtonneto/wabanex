@@ -230,7 +230,7 @@ defmodule WabanexWeb.SchemaTest do
   end
 
   describe "trainings mutations" do
-    test "when a valid user_id is given, returns the training", %{conn: conn} do
+    test "when a valid user_id is given, creates the training", %{conn: conn} do
       params = %{
         name: "Airton",
         email: "airton@cena.com",
@@ -244,34 +244,34 @@ defmodule WabanexWeb.SchemaTest do
       {:ok, %User{id: user_id}} = UserCreate.call(params)
 
       mutation = """
-      mutation {
-        createTraining(input: {
-          endDate: "2021-09-11",
-          startDate: "2021-08-11",
-          userId: "#{user_id}",
-          exercises: [
-            {
-              name: "Triceps banco",
-              youtubeVideoUrl: "www.google.com",
-              repetitions: "3x15",
-              protocolDescription: "drop-set"
-            },
-            {
-              name: "Triceps",
-              youtubeVideoUrl: "www.google.com",
-              repetitions: "3x10",
-              protocolDescription: "regular"
+        mutation {
+          createTraining(input: {
+            endDate: "2021-09-11",
+            startDate: "2021-08-11",
+            userId: "#{user_id}",
+            exercises: [
+              {
+                name: "Triceps banco",
+                youtubeVideoUrl: "www.google.com",
+                repetitions: "3x15",
+                protocolDescription: "drop-set"
+              },
+              {
+                name: "Triceps",
+                youtubeVideoUrl: "www.google.com",
+                repetitions: "3x10",
+                protocolDescription: "regular"
+              }
+            ]
+          }) {
+            exercises{
+              name,
+              protocolDescription,
+              repetitions,
+              youtubeVideoUrl
             }
-          ]
-        }) {
-          exercises{
-            name,
-            protocolDescription,
-            repetitions,
-            youtubeVideoUrl
           }
         }
-      }
       """
 
       response =
@@ -302,6 +302,69 @@ defmodule WabanexWeb.SchemaTest do
       }
 
       assert response == expected_response
+    end
+
+    test "when a valid training_id is given, deletes the training", %{conn: conn} do
+      params = %{
+        name: "Airton",
+        email: "airton@cena.com",
+        password: "123456",
+        heigth: 1.75,
+        weigth: 80.0,
+        fat_index: 0.60,
+        muscle_index: 0.40
+      }
+
+      {:ok, %User{id: user_id}} = UserCreate.call(params)
+
+      params = %{
+        end_date: "2021-09-11",
+        start_date: "2021-08-11",
+        user_id: "#{user_id}",
+        exercises: [
+          %{
+            name: "Triceps banco",
+            youtube_video_url: "www.google.com",
+            repetitions: "3x15",
+            protocol_description: "drop-set"
+          },
+          %{
+            name: "Triceps",
+            youtube_video_url: "www.google.com",
+            repetitions: "3x10",
+            protocol_description: "regular"
+          }
+        ]
+      }
+
+      {:ok, %Training{id: training_id}} = TrainingCreate.call(params)
+
+        mutation = """
+          mutation {
+            deleteTraining(id: "#{training_id}") {
+              startDate,
+              endDate,
+              id
+            }
+          }
+        """
+
+        response =
+          conn
+          |> post("/api/graphql", %{query: mutation})
+          |> json_response(:ok)
+
+        expected_response = %{
+          "data" => %{
+            "deleteTraining" => %{
+              "endDate" => "2021-09-11",
+              "id" => "#{training_id}",
+              "startDate" => "2021-08-11"
+            }
+          }
+        }
+
+        assert response == expected_response
     end
   end
 end

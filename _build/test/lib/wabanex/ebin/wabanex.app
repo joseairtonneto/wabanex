@@ -10,6 +10,8 @@
                         'Elixir.Wabanex.IMC','Elixir.Wabanex.Repo',
                         'Elixir.Wabanex.Training',
                         'Elixir.Wabanex.Trainings.Create',
+                        'Elixir.Wabanex.Trainings.Delete',
+                        'Elixir.Wabanex.Trainings.Update',
                         'Elixir.Wabanex.User','Elixir.Wabanex.Users.Create',
                         'Elixir.Wabanex.Users.Delete',
                         'Elixir.Wabanex.Users.Get',
