@@ -16,6 +16,7 @@ defmodule Wabanex.Users.Get do
         end
     end
   end
+
   defp load_training(user) do
     today = Date.utc_today()
 

@@ -21,7 +21,7 @@ defmodule WabanexWeb.IMCControllerTest do
         }
       }
 
-      assert expected_response == response
+      assert response == expected_response
     end
 
     test "when the filename is wrong, returns an error", %{conn: conn} do
@@ -34,7 +34,7 @@ defmodule WabanexWeb.IMCControllerTest do
 
       expected_response = %{"result" => "Error while opening the file"}
 
-      assert expected_response == response
+      assert response == expected_response
     end
   end
 end

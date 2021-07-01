@@ -13,6 +13,19 @@ defmodule WabanexWeb.Schema.Types.User do
     field(:name, non_null(:string))
     field(:email, non_null(:string))
     field(:password, non_null(:string))
+    field(:heigth, non_null (:float))
+    field(:weigth, non_null(:float))
+    field(:fat_index, non_null(:float))
+    field(:muscle_index, non_null(:float))
   end
 
+  input_object :update_user_input do
+    field(:name, :string)
+    field(:email, :string)
+    field(:password, :string)
+    field(:heigth, :float)
+    field(:weigth, :float)
+    field(:fat_index, :float)
+    field(:muscle_index, :float)
+  end
 end
